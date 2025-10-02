@@ -19,6 +19,8 @@ function createItem(input) {
 }
 $addButton.addEventListener('click', function() {
     const input = $inputNumber.value;
+    input < 0 || input === '' || isNaN(input) ? $errorMessage.textContent = '1~100までの数字を入れてください。'
+                             : $errorMessage.textContent = '';
     createItem(input);
     $inputNumber.value = '';
 })
