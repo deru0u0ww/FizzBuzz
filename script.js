@@ -1,5 +1,6 @@
 //DOM
 const $addButton    = document.querySelector('.add-button');
+const $resetButton  = document.querySelector('.reset-button');
 const $inputNumber  = document.querySelector('.input-number');
 const $errorMessage = document.querySelector('.error-message');
 const $resultList   = document.querySelector('.result-list');
@@ -19,8 +20,12 @@ function createItem(input) {
 }
 $addButton.addEventListener('click', function() {
     const input = $inputNumber.value;
-    input < 0 || input === '' || isNaN(input) ? $errorMessage.textContent = '1~100までの数字を入れてください。'
-                             : $errorMessage.textContent = '';
+    input < 0 || input === '' || isNaN(input) 
+                               ? $errorMessage.textContent = '1~100までの数字を入れてください。'
+                               : $errorMessage.textContent = '';
     createItem(input);
     $inputNumber.value = '';
+})
+$resetButton.addEventListener('click',function() {
+    $resultList.replaceChildren();
 })
