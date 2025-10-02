@@ -11,10 +11,19 @@ function createItem(input) {
     for(let i = 1;i <= input;i++) {
         const $li = document.createElement('li');
         let output = '';
-        $li.textContent = i % 15 === 0 ? 'FizzBuzz'
-                        : i %  3 === 0 ? 'Fizz'
-                        : i %  5 === 0 ? 'Buzz'
-                        : String(i);
+        if(i % 15 === 0) {
+            output += 'FizzBuzz';
+            $li.classList.add('fizzbuzz');
+        }else if(i & 3 === 0) {
+            output += 'Fizz';
+            $li.classList.add('fizz');
+        }else if(i % 5 === 0) {
+            output += 'Buzz';
+            $li.classList.add('buzz');
+        }else{
+            output += i;
+        }
+        $li.textContent = output;
         $resultList.appendChild($li);
     }
 }
