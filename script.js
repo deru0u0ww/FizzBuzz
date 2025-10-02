@@ -6,6 +6,7 @@ const $resultList   = document.querySelector('.result-list');
 
 
 function createItem(input) {
+    $resultList.replaceChildren();
     for(let i = 1;i <= input;i++) {
         const $li = document.createElement('li');
         let output = '';
@@ -17,6 +18,7 @@ function createItem(input) {
     }
 }
 $addButton.addEventListener('click', function() {
-    const input = Number($inputNumber.value);
+    const input = $inputNumber.value;
     createItem(input);
+    $inputNumber.value = '';
 })
