@@ -5,6 +5,7 @@ const $inputNumber  = document.querySelector('.input-number');
 const $errorMessage = document.querySelector('.error-message');
 const $resultList   = document.querySelector('.result-list');
 
+$resetButton.disabled = true;
 
 function createItem(input) {
     $resultList.replaceChildren();
@@ -38,10 +39,12 @@ $addButton.addEventListener('click', function() {
                                : $errorMessage.textContent = '';
     createItem(input);
     $inputNumber.value = '';
+    $resetButton.disabled = false;
 })
 $resetButton.addEventListener('click',function() {
     $resultList.replaceChildren();
     $errorMessage.textContent = '';
+    $resetButton.disabled = true;
 })
 function clear() {
     $inputNumber.value = '';
