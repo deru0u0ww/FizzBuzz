@@ -14,7 +14,7 @@ function createItem(input) {
         if(i % 15 === 0) {
             output += 'FizzBuzz';
             $li.classList.add('fizzbuzz');
-        }else if(i & 3 === 0) {
+        }else if(i % 3 === 0) {
             output += 'Fizz';
             $li.classList.add('fizz');
         }else if(i % 5 === 0) {
@@ -29,6 +29,10 @@ function createItem(input) {
 }
 $addButton.addEventListener('click', function() {
     const input = $inputNumber.value;
+    if(input > 100) {
+        clear();
+        return;
+    };
     input < 0 || input === '' || isNaN(input) 
                                ? $errorMessage.textContent = '1~100までの数字を入れてください。'
                                : $errorMessage.textContent = '';
@@ -37,4 +41,9 @@ $addButton.addEventListener('click', function() {
 })
 $resetButton.addEventListener('click',function() {
     $resultList.replaceChildren();
+    $errorMessage.textContent = '';
 })
+function clear() {
+    $inputNumber.value = '';
+    $errorMessage.textContent = '1~100までの数字を入れてください';
+}

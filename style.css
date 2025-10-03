@@ -7,3 +7,11 @@ body {
 .fizzbuzz { color: green;}
 .fizz { color: blue;}
 .buzz { color: yellow;}
+.result-list {
+    max-height: 400px;
+    height: 400px;
+    width: 16rem;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 0.5em;
+}
