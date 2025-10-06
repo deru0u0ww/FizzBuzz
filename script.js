@@ -27,19 +27,24 @@ function createItem(input) {
         $resultList.appendChild($li);
     }
 }
-$addButton.addEventListener('click', function() {
-    const input = $inputNumber.value;
-    if(input > 100) {
-        clear();
-        return;
-    };
-    input < 0 || input === '' || isNaN(input) 
-                               ? $errorMessage.textContent = '1~100までの数字を入れてください。'
-                               : $errorMessage.textContent = '';
-    createItem(input);
+function isValidation(n) { 
+    return Number.isInteger(n) && n >= 1 && n <= 100;
+ }
+$addButton.addEventListener('click', function(n) {
+    handleSubmit();
     $inputNumber.value = '';
     $resetButton.disabled = false;
 })
+function handleSubmit() {
+    const n = Number($inputNumber.value);
+    if(!isValidation(n)) {
+        $errorMessage.textContent = '1~100までの数字を入れてください。';
+        return;
+    }
+    $errorMessage.textContent = '';
+    createItem(n);
+    $inputNumber.value = '';
+}
 $resetButton.addEventListener('click',function() {
     $resultList.replaceChildren();
     $errorMessage.textContent = '';
