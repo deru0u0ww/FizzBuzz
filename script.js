@@ -1,52 +1,65 @@
 //DOM
-const $addButton    = document.querySelector('.add-button');
-const $resetButton  = document.querySelector('.reset-button');
-const $inputNumber  = document.querySelector('.input-number');
-const $errorMessage = document.querySelector('.error-message');
-const $resultList   = document.querySelector('.result-list');
+const $ = (sel) => document.querySelector(sel);
+const $input            = $('.add-button');
+const $resetButton      = $('.reset-button');
+const $inputNumber      = $('.input-number');
+const $errorMessage     = $('.error-message');
+const $resultList       = $('result-list');
+$resetButton.disabled   = true;
 
-$resetButton.disabled = true;
+$addButton.addEventListener('click', () => {
+    const n = parseAndValidate();
+    if (n == null) return;   // エラー時は処理しない
+    createItem(n);
+    $inputNumber.value = '';
+  });
 
-function createItem(input) {
+  // Enterキーでも実行
+  $inputNumber.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      $addButton.click();
+    }
+  });
+
+  // クリア
+  $resetButton.addEventListener('click', clearAll);
+function parseAndValidate() {
+    const n = Number($inputNumber.value);
+    if (!Number.isInteger(n) || n < 1 || n > 100) {
+      showError('1〜100までの整数を入力してください。');
+      return null;
+    }
+    showError('');
+    return n;
+}
+function createItem(n) {
     $resultList.replaceChildren();
-    for(let i = 1;i <= input;i++) {
+    const flag = document.createDocumentFragment();
+    for(let i = 1; i<=n;i++ ) {
         const $li = document.createElement('li');
-        let output = '';
         if(i % 15 === 0) {
-            output += 'FizzBuzz';
+            output = 'FizzBuzz';
             $li.classList.add('fizzbuzz');
         }else if(i % 3 === 0) {
-            output += 'Fizz';
+            output = 'Fizz';
             $li.classList.add('fizz');
         }else if(i % 5 === 0) {
-            output += 'Buzz';
+            output = 'Buzz';
             $li.classList.add('buzz');
         }else{
-            output += i;
+            output = i;
         }
-        $li.textContent = output;
-        $resultList.appendChild($li);
+        flag.appendChild($li);
     }
-}
-$addButton.addEventListener('click', function() {
-    const input = $inputNumber.value;
-    if(input > 100) {
-        clear();
-        return;
-    };
-    input < 0 || input === '' || isNaN(input) 
-                               ? $errorMessage.textContent = '1~100までの数字を入れてください。'
-                               : $errorMessage.textContent = '';
-    createItem(input);
-    $inputNumber.value = '';
+    $resultList.appendChild(flag);
     $resetButton.disabled = false;
-})
-$resetButton.addEventListener('click',function() {
+}
+function clearAll() {
     $resultList.replaceChildren();
-    $errorMessage.textContent = '';
+    showError('');
     $resetButton.disabled = true;
-})
-function clear() {
-    $inputNumber.value = '';
-    $errorMessage.textContent = '1~100までの数字を入れてください';
+}
+
+function showError() {
+    $errorMessage.textContent = msg || '';
 }

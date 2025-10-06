@@ -4,14 +4,17 @@ body {
     padding:0;
 }
 .error-message { color:red;}
-.fizzbuzz { color: green;}
+.fizzbuzz { 
+    color: green;
+    font-weight: 700;
+}
 .fizz { color: blue;}
 .buzz { color: yellow;}
 .result-list {
-    max-height: 400px;
-    height: 400px;
-    width: 16rem;
+    max-height: 420px;
+    width: 50%;
     overflow-y: auto;
     border: 1px solid #ccc;
     padding: 0.5em;
+    list-style:none;
 }
