@@ -8,6 +8,7 @@ const $errorMessage = $('.error-message');
 const $resultList   = $('.result-list');
 $resetButton.disabled = true;
 
+//関数処理
 function createItem(input) {
     $resultList.replaceChildren();
     for(let i = 1;i <= input;i++) {
@@ -27,30 +28,34 @@ function createItem(input) {
         $resultList.appendChild($li);
     }
 }
+function handleSubmit() {
+    const n = Number($inputNumber.value);
+    if(!isValidation(n)) {
+        showMessage('1~100までの数字を入れてください');
+        return;
+    }
+    createItem(n);
+    clearAll();
+}
+function clearAll() {
+    $errorMessage.textContent = '';
+    $inputNumber.value = '';
+}
 function isValidation(n) { 
+    if(n === 0 || isNaN(n)) return false;
     return Number.isInteger(n) && n >= 1 && n <= 100;
  }
+ function showMessage(msg) {
+    $errorMessage.textContent = msg;
+}
+//イベント処理
+$resetButton.addEventListener('click',function() {
+    $resultList.replaceChildren();
+    clearAll();
+    $resetButton.disabled = true;
+})
 $addButton.addEventListener('click', function(n) {
     handleSubmit();
     $inputNumber.value = '';
     $resetButton.disabled = false;
 })
-function handleSubmit() {
-    const n = Number($inputNumber.value);
-    if(!isValidation(n)) {
-        $errorMessage.textContent = '1~100までの数字を入れてください。';
-        return;
-    }
-    $errorMessage.textContent = '';
-    createItem(n);
-    $inputNumber.value = '';
-}
-$resetButton.addEventListener('click',function() {
-    $resultList.replaceChildren();
-    $errorMessage.textContent = '';
-    $resetButton.disabled = true;
-})
-function clear() {
-    $inputNumber.value = '';
-    $errorMessage.textContent = '1~100までの数字を入れてください';
-}
