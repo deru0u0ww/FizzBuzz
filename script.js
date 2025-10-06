@@ -1,4 +1,4 @@
-//DOM
+//DOM --------------------------------------------------
 const $ =(sel)=> document.querySelector(sel);
 
 const $addButton    = $('.add-button');
@@ -8,7 +8,7 @@ const $errorMessage = $('.error-message');
 const $resultList   = $('.result-list');
 $resetButton.disabled = true;
 
-//関数処理
+//関数処理 -----------------------------------------------
 function createItem(n) {
     $resultList.replaceChildren();
     for(let i = 1; i<=n;i++ ) {
@@ -48,7 +48,8 @@ function isValidation(n) {
  function showMessage(msg) {
     $errorMessage.textContent = msg;
 }
-//イベント処理
+
+//イベント処理 --------------------------------------
 $resetButton.addEventListener('click',function() {
     $resultList.replaceChildren();
     clearAll();
