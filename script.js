@@ -1,65 +1,61 @@
 //DOM
-const $ = (sel) => document.querySelector(sel);
-const $input            = $('.add-button');
-const $resetButton      = $('.reset-button');
-const $inputNumber      = $('.input-number');
-const $errorMessage     = $('.error-message');
-const $resultList       = $('result-list');
-$resetButton.disabled   = true;
+const $ =(sel)=> document.querySelector(sel);
 
-$addButton.addEventListener('click', () => {
-    const n = parseAndValidate();
-    if (n == null) return;   // エラー時は処理しない
-    createItem(n);
-    $inputNumber.value = '';
-  });
+const $addButton    = $('.add-button');
+const $resetButton  = $('.reset-button');
+const $inputNumber  = $('.input-number');
+const $errorMessage = $('.error-message');
+const $resultList   = $('.result-list');
+$resetButton.disabled = true;
 
-  // Enterキーでも実行
-  $inputNumber.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      $addButton.click();
-    }
-  });
-
-  // クリア
-  $resetButton.addEventListener('click', clearAll);
-function parseAndValidate() {
-    const n = Number($inputNumber.value);
-    if (!Number.isInteger(n) || n < 1 || n > 100) {
-      showError('1〜100までの整数を入力してください。');
-      return null;
-    }
-    showError('');
-    return n;
-}
+//関数処理
 function createItem(n) {
     $resultList.replaceChildren();
-    const flag = document.createDocumentFragment();
     for(let i = 1; i<=n;i++ ) {
         const $li = document.createElement('li');
-        if(i % 15 === 0) {
-            output = 'FizzBuzz';
-            $li.classList.add('fizzbuzz');
-        }else if(i % 3 === 0) {
-            output = 'Fizz';
-            $li.classList.add('fizz');
-        }else if(i % 5 === 0) {
-            output = 'Buzz';
-            $li.classList.add('buzz');
-        }else{
-            output = i;
-        }
-        flag.appendChild($li);
+        let mod3 = i % 3 === 0;
+        let mod5 = i % 5 === 0;
+        let output = '';
+        mod3 && mod5 ? output = 'FizzBuzz'
+                     : mod3 ? output = 'Fizz'
+                     : mod5 ? output = 'Buzz'
+                     : output = i;
+        mod3 && mod5 ? $li.classList.add('fizzbuzz')
+                     : mod3 ? $li.classList.add('fizz')
+                     : mod5 ? $li.classList.add('buzz')
+                     : '';
+        $li.textContent = output;
+        $resultList.appendChild($li);
     }
-    $resultList.appendChild(flag);
-    $resetButton.disabled = false;
+}
+function handleSubmit() {
+    const n = Number($inputNumber.value);
+    if(!isValidation(n)) {
+        showMessage('1~100までの数字を入れてください');
+        return;
+    }
+    createItem(n);
+    clearAll();
 }
 function clearAll() {
+    $errorMessage.textContent = '';
+    $inputNumber.value = '';
+}
+function isValidation(n) { 
+    if(n === 0 || isNaN(n)) return false;
+    return Number.isInteger(n) && n >= 1 && n <= 100;
+ }
+ function showMessage(msg) {
+    $errorMessage.textContent = msg;
+}
+//イベント処理
+$resetButton.addEventListener('click',function() {
     $resultList.replaceChildren();
-    showError('');
+    clearAll();
     $resetButton.disabled = true;
-}
-
-function showError() {
-    $errorMessage.textContent = msg || '';
-}
+})
+$addButton.addEventListener('click', function(n) {
+    handleSubmit();
+    $inputNumber.value = '';
+    $resetButton.disabled = false;
+})
